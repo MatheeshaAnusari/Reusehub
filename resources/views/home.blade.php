@@ -82,6 +82,71 @@
             transform: translateY(-2px);
         }
 
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-menu.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mobile-menu li {
+            margin: 0.5rem 0;
+        }
+
+        .mobile-menu a {
+            color: #333;
+            text-decoration: none;
+            display: block;
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .mobile-menu a:hover {
+            background: rgba(79, 172, 254, 0.1);
+            color: #4facfe;
+            transform: translateX(5px);
+        }
+
         /* Hero Section */
         .hero {
             min-height: 100vh;
@@ -389,6 +454,10 @@
                 display: none;
             }
             
+            .mobile-menu-btn {
+                display: block;
+            }
+            
             .hero-title {
                 font-size: 2.5rem;
             }
@@ -404,6 +473,31 @@
             
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .eco-counter {
+                position: static;
+                margin: 1rem auto;
+                width: fit-content;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .trust-badges {
+                flex-direction: column;
+                align-items: center;
             }
         }
 
@@ -472,6 +566,17 @@
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            <div class="mobile-menu" id="mobileMenu">
+                <ul>
+                    <li><a href="#home" onclick="closeMobileMenu()">🏠 Home</a></li>
+                    <li><a href="#donate" onclick="closeMobileMenu()">🎁 Donate</a></li>
+                    <li><a href="#browse" onclick="closeMobileMenu()">🛒 Browse</a></li>
+                    <li><a href="#blog" onclick="closeMobileMenu()">📝 Blog</a></li>
+                    <li><a href="#about" onclick="closeMobileMenu()">ℹ️ About</a></li>
+                    <li><a href="#contact" onclick="closeMobileMenu()">📧 Contact</a></li>
+                </ul>
+            </div>
         </nav>
     </header>
 
@@ -606,13 +711,44 @@
     <button class="floating-btn" onclick="scrollToTop()">↑</button>
 
     <script>
+        // Mobile menu functions
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            
+            mobileMenu.classList.toggle('active');
+            menuBtn.textContent = mobileMenu.classList.contains('active') ? '✕' : '☰';
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            
+            mobileMenu.classList.remove('active');
+            menuBtn.textContent = '☰';
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const nav = document.querySelector('nav');
+            
+            if (!nav.contains(event.target) && mobileMenu.classList.contains('active')) {
+                closeMobileMenu();
+            }
+        });
+
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
             });
         });
 
@@ -645,12 +781,32 @@
         // Header background change on scroll
         window.addEventListener('scroll', () => {
             const header = document.querySelector('header');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            const logo = document.querySelector('.logo');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            
             if (window.scrollY > 100) {
                 header.style.background = 'rgba(255, 255, 255, 0.95)';
-                header.style.color = '#333';
+                header.style.backdropFilter = 'blur(20px)';
+                header.style.borderBottom = '1px solid rgba(0, 0, 0, 0.1)';
+                
+                // Change text colors for better contrast
+                logo.style.color = '#333';
+                if (menuBtn) menuBtn.style.color = '#333';
+                navLinks.forEach(link => {
+                    link.style.color = '#333';
+                });
             } else {
                 header.style.background = 'rgba(255, 255, 255, 0.1)';
-                header.style.color = 'white';
+                header.style.backdropFilter = 'blur(10px)';
+                header.style.borderBottom = 'none';
+                
+                // Reset to white text
+                logo.style.color = 'white';
+                if (menuBtn) menuBtn.style.color = 'white';
+                navLinks.forEach(link => {
+                    link.style.color = 'white';
+                });
             }
         });
 
