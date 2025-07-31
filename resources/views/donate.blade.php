@@ -142,12 +142,70 @@
               <option value="furniture">Furniture</option>
               <option value="electronics">Electronics</option>
               <option value="appliances">Appliances</option>
+              <option value="clothing">Clothing</option>
+              <option value="books">Books</option>
               <option value="others">Others</option>
             </select>
           </div>
 
-          <!-- Images -->
+          <!-- Condition -->
+          <div class="slide-in" style="animation-delay: 0.35s">
+            <label class="block text-sm font-semibold mb-2">Item Condition*</label>
+            <select id="itemCondition" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition appearance-none bg-white" required>
+              <option value="">Select condition</option>
+              <option value="new">New</option>
+              <option value="excellent">Excellent</option>
+              <option value="good">Good</option>
+              <option value="fair">Fair</option>
+              <option value="needs-repair">Needs Repair</option>
+            </select>
+          </div>
+
+          <!-- Price Section -->
           <div class="slide-in" style="animation-delay: 0.4s">
+            <label class="block text-sm font-semibold mb-2">Pricing Option*</label>
+            <div class="space-y-3">
+              <div class="flex items-center">
+                <input type="radio" id="freeOption" name="pricingOption" value="free" class="h-5 w-5 text-green-500 focus:ring-green-400" checked>
+                <label for="freeOption" class="ml-3 block text-sm font-medium text-gray-700">
+                  Free Donation
+                  <span class="text-xs text-gray-500">(Item will be given away for free)</span>
+                </label>
+              </div>
+              
+              <div class="flex items-center">
+                <input type="radio" id="fixedPriceOption" name="pricingOption" value="fixed" class="h-5 w-5 text-green-500 focus:ring-green-400">
+                <label for="fixedPriceOption" class="ml-3 block text-sm font-medium text-gray-700">
+                  Fixed Price
+                </label>
+              </div>
+              
+              <div id="priceInputContainer" class="ml-8 hidden">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Price (LKR)</label>
+                <div class="relative rounded-md shadow-sm">
+                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <span class="text-gray-500 sm:text-sm">Rs.</span>
+                  </div>
+                  <input type="number" id="itemPrice" min="0" step="100" class="focus:ring-green-500 focus:border-green-500 block w-full pl-12 pr-12 sm:text-sm border-gray-300 rounded-md p-2 border" placeholder="0.00">
+                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    <span class="text-gray-500 sm:text-sm">.00</span>
+                  </div>
+                </div>
+                <p class="mt-1 text-xs text-gray-500">Please set a reasonable price to help your item find a new home</p>
+              </div>
+              
+              <div class="flex items-center">
+                <input type="radio" id="negotiableOption" name="pricingOption" value="negotiable" class="h-5 w-5 text-green-500 focus:ring-green-400">
+                <label for="negotiableOption" class="ml-3 block text-sm font-medium text-gray-700">
+                  Negotiable Price
+                  <span class="text-xs text-gray-500">(Buyers can make offers)</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Images -->
+          <div class="slide-in" style="animation-delay: 0.5s">
             <label class="block text-sm font-semibold mb-2">Upload Item Images*</label>
             <div class="border-2 border-dashed border-green-300 rounded-lg p-6 text-center bg-green-50 cursor-pointer transition hover:bg-green-100 hover:border-green-400">
               <input type="file" id="itemImages" accept="image/*" multiple class="hidden" required />
@@ -160,7 +218,7 @@
             <div id="previewContainer" class="flex flex-wrap mt-4 gap-4"></div>
           </div>
 
-          <div class="flex justify-end pt-2 slide-in" style="animation-delay: 0.5s">
+          <div class="flex justify-end pt-2 slide-in" style="animation-delay: 0.6s">
             <button type="button" id="nextToStep2" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition transform hover:scale-105 active:scale-95">
               Next: Services <i class="fas fa-arrow-right ml-2 bounce"></i>
             </button>
@@ -176,24 +234,10 @@
         </h2>
         
         <div class="space-y-5">
-          <!-- Donation Type -->
-          <div class="slide-in">
-            <label class="block text-sm font-semibold mb-2">Select Donation Type</label>
-            <select id="donationType" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition">
-              <option value="free">Free</option>
-              <option value="negotiable">Negotiable</option>
-              <option value="fixed">Fixed Amount</option>
-            </select>
-          </div>
-
-          <!-- Amount Field (only if fixed) -->
-          <div id="amountContainer" class="hidden slide-in" style="animation-delay: 0.1s">
-            <label class="block text-sm font-semibold mb-2">Amount (LKR)</label>
-            <input type="number" id="donationAmount" min="0" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition" />
-          </div>
-
+          <!-- Donation Type (now moved to Step 1) -->
+          
           <!-- Optional Services -->
-          <div class="pt-4 border-t slide-in" style="animation-delay: 0.2s">
+          <div class="pt-4 border-t slide-in" style="animation-delay: 0.1s">
             <label class="block text-sm font-semibold mb-3">Optional Services</label>
             <div class="space-y-3">
               <label class="service-card flex items-start p-4 border border-gray-200 rounded-lg cursor-pointer transition">
@@ -213,10 +257,19 @@
                   <p class="text-green-600 font-bold mt-2">Rs. 500</p>
                 </div>
               </label>
+
+              <label class="service-card flex items-start p-4 border border-gray-200 rounded-lg cursor-pointer transition">
+                <input type="checkbox" name="service" value="cleaning" class="mt-1 mr-3 h-5 w-5 text-green-500 rounded focus:ring-green-400">
+                <div>
+                  <span class="font-medium">🧼 Cleaning Service</span>
+                  <p class="text-gray-500 text-sm mt-1">We'll professionally clean your item</p>
+                  <p class="text-green-600 font-bold mt-2">Rs. 400</p>
+                </div>
+              </label>
             </div>
           </div>
 
-          <div class="flex justify-between pt-4 slide-in" style="animation-delay: 0.3s">
+          <div class="flex justify-between pt-4 slide-in" style="animation-delay: 0.2s">
             <button type="button" id="backToStep1" class="text-gray-600 px-6 py-3 rounded-lg border hover:bg-gray-100 transition transform hover:scale-105 active:scale-95">
               <i class="fas fa-arrow-left mr-2"></i> Back
             </button>
@@ -360,9 +413,9 @@
       const successMessage = document.getElementById('successMessage');
       
       // Form elements
-      const donationType = document.getElementById('donationType');
-      const amountContainer = document.getElementById('amountContainer');
-      const donationAmount = document.getElementById('donationAmount');
+      const pricingOptions = document.querySelectorAll('input[name="pricingOption"]');
+      const priceInputContainer = document.getElementById('priceInputContainer');
+      const itemPrice = document.getElementById('itemPrice');
       const itemImages = document.getElementById('itemImages');
       const previewContainer = document.getElementById('previewContainer');
       const orderSummary = document.getElementById('orderSummary');
@@ -379,22 +432,60 @@
       let selectedImages = [];
       let hasPickup = false;
       let hasRepair = false;
+      let hasCleaning = false;
 
       // Initialize
       updateStepIndicator();
+      setupEventListeners();
 
-      // Event Listeners
-      donationType.addEventListener('change', () => {
-        amountContainer.classList.toggle('hidden', donationType.value !== 'fixed');
-        if (donationType.value !== 'fixed') {
-          donationAmount.value = '';
-        }
-        updateOrderSummary();
-      });
+      function setupEventListeners() {
+        // Pricing option changes
+        pricingOptions.forEach(option => {
+          option.addEventListener('change', function() {
+            priceInputContainer.classList.toggle('hidden', this.value !== 'fixed');
+            updateOrderSummary();
+          });
+        });
 
-      donationAmount.addEventListener('input', updateOrderSummary);
+        // Price input changes
+        itemPrice.addEventListener('input', updateOrderSummary);
 
-      itemImages.addEventListener('change', (event) => {
+        // Image upload
+        itemImages.addEventListener('change', handleImageUpload);
+
+        // Service checkboxes
+        serviceCheckboxes.forEach(checkbox => {
+          checkbox.addEventListener('change', function() {
+            if (this.value === 'pickup') hasPickup = this.checked;
+            if (this.value === 'repair') hasRepair = this.checked;
+            if (this.value === 'cleaning') hasCleaning = this.checked;
+            updateOrderSummary();
+            
+            // Add visual feedback
+            if (this.checked) {
+              this.closest('label').classList.add('border-green-400', 'bg-green-50');
+            } else {
+              this.closest('label').classList.remove('border-green-400', 'bg-green-50');
+            }
+          });
+        });
+
+        // Navigation buttons
+        nextToStep2.addEventListener('click', goToStep2);
+        nextToStep3.addEventListener('click', goToStep3);
+        backToStep1.addEventListener('click', goBackToStep1);
+        backToStep2.addEventListener('click', goBackToStep2);
+        submitPayment.addEventListener('click', processPayment);
+        newDonationBtn.addEventListener('click', resetForm);
+
+        // Chat functionality
+        sendMessage.addEventListener('click', sendChatMessage);
+        chatInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') sendChatMessage();
+        });
+      }
+
+      function handleImageUpload(event) {
         const files = Array.from(event.target.files);
         selectedImages = [];
         previewContainer.innerHTML = '';
@@ -409,84 +500,100 @@
             reader.readAsDataURL(file);
           }
         });
-      });
+      }
 
-      serviceCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
-          if (this.value === 'pickup') hasPickup = this.checked;
-          if (this.value === 'repair') hasRepair = this.checked;
-          updateOrderSummary();
-          
-          // Add visual feedback
-          if (this.checked) {
-            this.closest('label').classList.add('border-green-400', 'bg-green-50');
-          } else {
-            this.closest('label').classList.remove('border-green-400', 'bg-green-50');
-          }
+      function renderPreviews() {
+        previewContainer.innerHTML = '';
+        selectedImages.forEach((img, index) => {
+          const imgBox = document.createElement('div');
+          imgBox.className = 'relative w-24 h-24 border border-gray-300 rounded-lg overflow-hidden transition transform hover:scale-105';
+
+          const image = document.createElement('img');
+          image.src = img.url;
+          image.className = 'object-cover w-full h-full';
+
+          const btn = document.createElement('button');
+          btn.className = 'absolute top-1 right-1 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs transition hover:bg-red-700';
+          btn.innerHTML = '✕';
+          btn.onclick = () => {
+            selectedImages.splice(index, 1);
+            
+            // Show confirmation animation before removing
+            btn.innerHTML = '✓';
+            btn.classList.remove('bg-red-600', 'hover:bg-red-700');
+            btn.classList.add('bg-green-500', 'hover:bg-green-600');
+            setTimeout(() => {
+              renderPreviews();
+            }, 500);
+          };
+
+          imgBox.appendChild(image);
+          imgBox.appendChild(btn);
+          previewContainer.appendChild(imgBox);
         });
-      });
+      }
 
-      nextToStep2.addEventListener('click', function() {
-        if (validateStep1()) {
-          currentStep = 2;
-          updateStepIndicator();
-          updateOrderSummary();
-          animateElements();
+      function updateOrderSummary() {
+        const selectedPricingOption = document.querySelector('input[name="pricingOption"]:checked').value;
+        let priceText = '';
+        
+        if (selectedPricingOption === 'free') {
+          priceText = 'Free Donation';
+        } else if (selectedPricingOption === 'fixed') {
+          priceText = itemPrice.value ? `Rs. ${itemPrice.value}` : 'Rs. 0';
+        } else if (selectedPricingOption === 'negotiable') {
+          priceText = 'Negotiable Price';
         }
-      });
 
-      nextToStep3.addEventListener('click', function() {
-        currentStep = 3;
-        updateStepIndicator();
-        updateOrderSummary();
-        animateElements();
-      });
+        let summaryHTML = `
+          <div class="flex justify-between pb-2 border-b">
+            <span>${document.getElementById('itemName').value}</span>
+            <span>${priceText}</span>
+          </div>
+        `;
 
-      backToStep1.addEventListener('click', function() {
-        currentStep = 1;
-        updateStepIndicator();
-        animateElements();
-      });
-
-      backToStep2.addEventListener('click', function() {
-        currentStep = 2;
-        updateStepIndicator();
-        animateElements();
-      });
-
-      submitPayment.addEventListener('click', function(e) {
-        e.preventDefault(); // Prevent default form submission
-        processPayment();
-      });
-
-      newDonationBtn.addEventListener('click', function() {
-        resetForm();
-      });
-
-      sendMessage.addEventListener('click', function() {
-        if (chatInput.value.trim()) {
-          addMessage(chatInput.value, 'outgoing');
-          chatInput.value = '';
-          
-          // Simulate reply after 1 second
-          setTimeout(() => {
-            addMessage("Hi! I'm interested in your item. Is it still available?", 'incoming');
-          }, 1000);
+        let total = selectedPricingOption === 'fixed' && itemPrice.value ? parseInt(itemPrice.value) : 0;
+        
+        if (hasPickup) {
+          summaryHTML += `
+            <div class="flex justify-between text-sm text-gray-600">
+              <span>Pickup Service</span>
+              <span>Rs. 300</span>
+            </div>
+          `;
+          total += 300;
         }
-      });
 
-      chatInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-          sendMessage.click();
+        if (hasRepair) {
+          summaryHTML += `
+            <div class="flex justify-between text-sm text-gray-600">
+              <span>Repair Service</span>
+              <span>Rs. 500</span>
+            </div>
+          `;
+          total += 500;
         }
-      });
 
-      // Helper Functions
+        if (hasCleaning) {
+          summaryHTML += `
+            <div class="flex justify-between text-sm text-gray-600">
+              <span>Cleaning Service</span>
+              <span>Rs. 400</span>
+            </div>
+          `;
+          total += 400;
+        }
+
+        orderSummary.innerHTML = summaryHTML;
+        paymentTotal.textContent = `Rs. ${total}`;
+      }
+
       function validateStep1() {
         const requiredFields = [
           document.getElementById('itemName'),
           document.getElementById('itemDescription'),
-          document.getElementById('itemCategory')
+          document.getElementById('itemCategory'),
+          document.getElementById('itemCondition')
         ];
 
         let isValid = true;
@@ -502,45 +609,75 @@
           }
         });
 
-        if (!isValid) {
-          // Show error message with animation
-          const errorMsg = document.createElement('div');
-          errorMsg.className = 'bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 fade-in';
-          errorMsg.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i> Please fill in all required fields';
-          formContainer.prepend(errorMsg);
-          
-          // Remove after 3 seconds
+        // Validate fixed price if selected
+        const pricingOption = document.querySelector('input[name="pricingOption"]:checked').value;
+        if (pricingOption === 'fixed' && (!itemPrice.value || parseInt(itemPrice.value) <= 0)) {
+          priceInputContainer.classList.add('shake');
           setTimeout(() => {
-            errorMsg.classList.add('opacity-0', 'transition-opacity', 'duration-300');
-            setTimeout(() => errorMsg.remove(), 300);
-          }, 3000);
-          
+            priceInputContainer.classList.remove('shake');
+          }, 500);
+          isValid = false;
+        }
+
+        if (!isValid) {
+          showErrorMessage('Please fill in all required fields');
           return false;
         }
 
         if (selectedImages.length === 0) {
-          const errorMsg = document.createElement('div');
-          errorMsg.className = 'bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 fade-in';
-          errorMsg.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i> Please upload at least one photo';
-          formContainer.prepend(errorMsg);
-          
+          showErrorMessage('Please upload at least one photo');
           // Shake the upload area
           const uploadArea = document.querySelector('[for="itemImages"]');
           uploadArea.classList.add('shake');
           setTimeout(() => {
             uploadArea.classList.remove('shake');
           }, 500);
-          
-          // Remove after 3 seconds
-          setTimeout(() => {
-            errorMsg.classList.add('opacity-0', 'transition-opacity', 'duration-300');
-            setTimeout(() => errorMsg.remove(), 300);
-          }, 3000);
-          
           return false;
         }
 
         return true;
+      }
+
+      function showErrorMessage(message) {
+        // Show error message with animation
+        const errorMsg = document.createElement('div');
+        errorMsg.className = 'bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 fade-in';
+        errorMsg.innerHTML = `<i class="fas fa-exclamation-circle mr-2"></i> ${message}`;
+        formContainer.prepend(errorMsg);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+          errorMsg.classList.add('opacity-0', 'transition-opacity', 'duration-300');
+          setTimeout(() => errorMsg.remove(), 300);
+        }, 3000);
+      }
+
+      function goToStep2() {
+        if (validateStep1()) {
+          currentStep = 2;
+          updateStepIndicator();
+          updateOrderSummary();
+          animateElements();
+        }
+      }
+
+      function goToStep3() {
+        currentStep = 3;
+        updateStepIndicator();
+        updateOrderSummary();
+        animateElements();
+      }
+
+      function goBackToStep1() {
+        currentStep = 1;
+        updateStepIndicator();
+        animateElements();
+      }
+
+      function goBackToStep2() {
+        currentStep = 2;
+        updateStepIndicator();
+        animateElements();
       }
 
       function updateStepIndicator() {
@@ -580,71 +717,6 @@
           el.style.animationDelay = `${i * 0.1}s`;
           el.classList.add('slide-in');
         });
-      }
-
-      function renderPreviews() {
-        previewContainer.innerHTML = '';
-        selectedImages.forEach((img, index) => {
-          const imgBox = document.createElement('div');
-          imgBox.className = 'relative w-24 h-24 border border-gray-300 rounded-lg overflow-hidden transition transform hover:scale-105';
-
-          const image = document.createElement('img');
-          image.src = img.url;
-          image.className = 'object-cover w-full h-full';
-
-          const btn = document.createElement('button');
-          btn.className = 'absolute top-1 right-1 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs transition hover:bg-red-700';
-          btn.innerHTML = '✕';
-          btn.onclick = () => {
-            selectedImages.splice(index, 1);
-            
-            // Show confirmation animation before removing
-            btn.innerHTML = '✓';
-            btn.classList.remove('bg-red-600', 'hover:bg-red-700');
-            btn.classList.add('bg-green-500', 'hover:bg-green-600');
-            setTimeout(() => {
-              renderPreviews();
-            }, 500);
-          };
-
-          imgBox.appendChild(image);
-          imgBox.appendChild(btn);
-          previewContainer.appendChild(imgBox);
-        });
-      }
-
-      function updateOrderSummary() {
-        let summaryHTML = `
-          <div class="flex justify-between pb-2 border-b">
-            <span>${document.getElementById('itemName').value}</span>
-            <span>${donationType.value === 'free' ? 'Free' : (donationType.value === 'fixed' ? 'Rs. ' + (donationAmount.value || '0') : 'Negotiable')}</span>
-          </div>
-        `;
-
-        let total = 0;
-        
-        if (hasPickup) {
-          summaryHTML += `
-            <div class="flex justify-between text-sm text-gray-600">
-              <span>Pickup Service</span>
-              <span>Rs. 300</span>
-            </div>
-          `;
-          total += 300;
-        }
-
-        if (hasRepair) {
-          summaryHTML += `
-            <div class="flex justify-between text-sm text-gray-600">
-              <span>Repair Service</span>
-              <span>Rs. 500</span>
-            </div>
-          `;
-          total += 500;
-        }
-
-        orderSummary.innerHTML = summaryHTML;
-        paymentTotal.textContent = `Rs. ${total}`;
       }
 
       function processPayment() {
@@ -701,6 +773,18 @@
         }, 5000);
       }
 
+      function sendChatMessage() {
+        if (chatInput.value.trim()) {
+          addMessage(chatInput.value, 'outgoing');
+          chatInput.value = '';
+          
+          // Simulate reply after 1 second
+          setTimeout(() => {
+            addMessage("Hi! I'm interested in your item. Is it still available?", 'incoming');
+          }, 1000);
+        }
+      }
+
       function addMessage(text, direction) {
         const messageDiv = document.createElement('div');
         messageDiv.className = `flex ${direction === 'outgoing' ? 'justify-end' : 'justify-start'} fade-in`;
@@ -726,12 +810,18 @@
 
       function resetForm() {
         // Reset form
-        form.reset();
+        document.getElementById('itemName').value = '';
+        document.getElementById('itemDescription').value = '';
+        document.getElementById('itemCategory').value = '';
+        document.getElementById('itemCondition').value = '';
+        document.getElementById('freeOption').checked = true;
+        document.getElementById('itemPrice').value = '';
         selectedImages = [];
         previewContainer.innerHTML = '';
-        amountContainer.classList.add('hidden');
+        priceInputContainer.classList.add('hidden');
         hasPickup = false;
         hasRepair = false;
+        hasCleaning = false;
         chatMessages.innerHTML = `
           <div class="flex justify-start">
             <div class="chat-message bg-gray-100 p-3 rounded-lg">
